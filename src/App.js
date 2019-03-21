@@ -1,26 +1,38 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import Address from './Address'
+import FirstLast from './FirstLast'
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.comps = [Address, FirstLast];
+    this.state = {
+      address: {
+        street: undefined,
+        city: undefined,
+        state: undefined
+      },
+      client: {
+        firstName: undefined,
+        lastName: undefined
+      }
+    };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange({target: {name, value}}) {
+    const access = name.split('.');
+    const ob = {...this.state[access[0]]};
+    ob[access[1]] = value;
+    this.setState({[access[0]]: ob})
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div className="App">
+          {this.comps[1]({onChange: this.onChange, ...this.state})}
+        </div>
     );
   }
 }
