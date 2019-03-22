@@ -21,18 +21,6 @@ const Address = props => {
                  value={props.state}
                  onChange={props.onChange}/>
         </div>
-        <div>
-          <label>Basic Zip: </label>
-          <input name="basicZip"
-                 value={props.basicZip}
-                 onChange={props.onChange}/>
-        </div>
-        <div>
-          <label>Plus Four Zip: </label>
-          <input name="plusFourZip"
-                 value={props.plusFourZip}
-                 onChange={props.onChange}/>
-        </div>
       </div>
   )
 };

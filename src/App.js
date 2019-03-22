@@ -8,40 +8,43 @@ class App extends Component {
     super(props);
     this.state = {
       address: {
-        street: undefined,
-        city: undefined,
-        state: undefined,
-        basicZip: undefined,
-        plusFourZip: undefined
+        street: "",
+        city: "",
+        state: "",
       },
       client: {
-        firstName: undefined,
-        lastName: undefined
+        firstName: "",
+        lastName: ""
       },
       currentStepIdx: 0
     };
-    this.steps = [{
+    this.changeStep = this.changeStep.bind(this);
+    this.steps = this.steps.bind(this);
+    this.initializeStep = this.initializeStep.bind(this);
+  }
+
+  steps() {
+    return [{
       component: Address,
-      props: {...this.state.address},
+      props: this.state.address,
       events: {
-        onChange: ({target: {key, value}}) => {
+        onChange: ({target: {name, value}}) => {
           const address = {...this.state.address};
-          address[key] = value;
+          address[name] = value;
           this.setState({address})
         }
       },
     }, {
       component: FirstLast,
-      props: {...this.state.client},
+      props: this.state.client,
       events: {
-        onChange: ({target: {key, value}}) => {
+        onChange: ({target: {name, value}}) => {
           const client = {...this.state.client};
-          client[key] = value;
+          client[name] = value;
           this.setState({client})
         }
       }
     }];
-    this.changeStep = this.changeStep.bind(this);
   }
 
   initializeStep({component, props, events}) {
@@ -49,7 +52,7 @@ class App extends Component {
   }
 
   changeStep() {
-    const lastStep = this.steps.length - 1;
+    const lastStep = this.steps().length - 1;
     const nextStep = this.state.currentStepIdx + 1;
     return nextStep <= lastStep ?
         this.setState({currentStepIdx: nextStep}) :
@@ -60,7 +63,7 @@ class App extends Component {
     return (
         <div className="App">
           <button onClick={this.changeStep}>Next Step</button>
-          {this.initializeStep(this.steps[this.state.currentStepIdx])}
+          {this.initializeStep(this.steps()[this.state.currentStepIdx])}
         </div>
     );
   }
