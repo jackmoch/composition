@@ -5,14 +5,14 @@ const FirstLast = props => {
       <div>
         <div>
           <label>First Name: </label>
-          <input name="client.firstName"
-                 value={props.client.firstName}
+          <input name="firstName"
+                 value={props.firstName}
                  onChange={props.onChange}/>
         </div>
         <div>
           <label>Last Name: </label>
-          <input name="client.lastName"
-                 value={props.client.lastName}
+          <input name="lastName"
+                 value={props.lastName}
                  onChange={props.onChange}/>
         </div>
       </div>

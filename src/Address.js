@@ -5,20 +5,32 @@ const Address = props => {
       <div>
         <div>
           <label>Street: </label>
-          <input name="address.street"
-                 value={props.address.street}
+          <input name="street"
+                 value={props.street}
                  onChange={props.onChange}/>
         </div>
         <div>
           <label>City: </label>
-          <input name="address.city"
-                 value={props.address.city}
+          <input name="city"
+                 value={props.city}
                  onChange={props.onChange}/>
         </div>
         <div>
           <label>State: </label>
-          <input name="address.state"
-                 value={props.address.state}
+          <input name="state"
+                 value={props.state}
+                 onChange={props.onChange}/>
+        </div>
+        <div>
+          <label>Basic Zip: </label>
+          <input name="basicZip"
+                 value={props.basicZip}
+                 onChange={props.onChange}/>
+        </div>
+        <div>
+          <label>Plus Four Zip: </label>
+          <input name="plusFourZip"
+                 value={props.plusFourZip}
                  onChange={props.onChange}/>
         </div>
       </div>
