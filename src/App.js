@@ -19,7 +19,6 @@ class App extends Reflux.Component {
     this.changeStep = this.changeStep.bind(this);
     this.steps = this.steps.bind(this);
     this.initializeStep = this.initializeStep.bind(this);
-    console.log(flowActions)
   }
 
   steps() {
@@ -28,7 +27,6 @@ class App extends Reflux.Component {
       props: this.state.address,
       events: {
         onChange: ({target: {name, value}}) => {
-          console.log('hello')
           flowActions.setAddress(name, value)
         }
       },
