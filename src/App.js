@@ -10,16 +10,11 @@ class App extends Reflux.Component {
     super(props);
     this.stores = [FlowStore];
     this.state = {
-      client: {
-        firstName: "",
-        lastName: ""
-      },
       currentStepIdx: 0
     };
     this.changeStep = this.changeStep.bind(this);
     this.steps = this.steps.bind(this);
     this.initializeStep = this.initializeStep.bind(this);
-    console.log(flowActions)
   }
 
   steps() {
@@ -28,18 +23,15 @@ class App extends Reflux.Component {
       props: this.state.address,
       events: {
         onChange: ({target: {name, value}}) => {
-          console.log('hello')
           flowActions.setAddress(name, value)
         }
       },
     }, {
       component: FirstLast,
-      props: this.state.client,
+      props: this.state.clientInfo,
       events: {
         onChange: ({target: {name, value}}) => {
-          const client = {...this.state.client};
-          client[name] = value;
-          this.setState({client})
+          flowActions.setClientInfo(name, value)
         }
       }
     }];

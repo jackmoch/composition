@@ -10,29 +10,34 @@ class FlowStore extends Reflux.Store {
   constructor() {
     super();
     this.state = this.initializeState();
+    this.listenables = flowActions;
   }
 
   initializeState() {
     return {
       address: {
-        street: undefined,
-        city: undefined,
-        state: undefined,
+        street: '',
+        city: '',
+        state: '',
       },
-      client: {
-        firstName: "",
-        lastName: ""
+      clientInfo: {
+        firstName: '',
+        lastName: ''
       }
     }
   }
 
   onSetAddress (key, value) {
-    console.log('hello')
     const address = {...this.state.address};
     address[key] = value;
     this.setState({address})
   }
 
+  onSetClientInfo (key, value) {
+    const clientInfo = {...this.state.clientInfo};
+    clientInfo[key] = value;
+    this.setState({clientInfo})
+  }
 }
 
 const flowStore = new FlowStore();
