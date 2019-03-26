@@ -2,20 +2,14 @@ import React, {Component} from 'react';
 import './App.css';
 import Address from './Address'
 import FirstLast from './FirstLast'
+import FlowStore, {flowActions} from './stores/FlowStore'
+import Reflux from 'reflux'
 
-class App extends Component {
+class App extends Reflux.Component {
   constructor(props) {
     super(props);
+    this.stores = [FlowStore];
     this.state = {
-      address: {
-        street: "",
-        city: "",
-        state: "",
-      },
-      client: {
-        firstName: "",
-        lastName: ""
-      },
       currentStepIdx: 0
     };
     this.changeStep = this.changeStep.bind(this);
@@ -29,27 +23,23 @@ class App extends Component {
       props: this.state.address,
       events: {
         onChange: ({target: {name, value}}) => {
-          const address = {...this.state.address};
-          address[name] = value;
-          this.setState({address})
+          flowActions.setAddress(name, value)
         }
       },
     }, {
       component: FirstLast,
-      props: this.state.client,
+      props: this.state.clientInfo,
       events: {
         onChange: ({target: {name, value}}) => {
-          const client = {...this.state.client};
-          client[name] = value;
-          this.setState({client})
+          flowActions.setClientInfo(name, value)
         }
       }
     }];
   }
 
-  initializeStep({component, props, events}) {
+  initializeStep = ({component, props, events}) => {
     return component({...props, ...events})
-  }
+  };
 
   changeStep() {
     const lastStep = this.steps().length - 1;
