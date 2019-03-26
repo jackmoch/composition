@@ -1,7 +1,8 @@
 import Reflux from 'reflux';
 
 export const flowActions = Reflux.createActions([
-    'setAddress'
+    'setAddress',
+    'setClientInfo'
 ]);
 
 class FlowStore extends Reflux.Store {
@@ -18,6 +19,10 @@ class FlowStore extends Reflux.Store {
         street: '',
         city: '',
         state: '',
+      },
+      clientInfo: {
+        firstName: '',
+        lastName: ''
       }
     }
   }
@@ -26,6 +31,12 @@ class FlowStore extends Reflux.Store {
     const address = {...this.state.address};
     address[key] = value;
     this.setState({address})
+  }
+
+  onSetClientInfo (key, value) {
+    const clientInfo = {...this.state.clientInfo};
+    clientInfo[key] = value;
+    this.setState({clientInfo})
   }
 }
 
