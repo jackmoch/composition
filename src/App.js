@@ -2,16 +2,14 @@ import React, {Component} from 'react';
 import './App.css';
 import Address from './Address'
 import FirstLast from './FirstLast'
+import FlowStore, {flowActions} from './stores/FlowStore'
+import Reflux from 'reflux'
 
-class App extends Component {
+class App extends Reflux.Component {
   constructor(props) {
     super(props);
+    this.stores = [FlowStore];
     this.state = {
-      address: {
-        street: "",
-        city: "",
-        state: "",
-      },
       client: {
         firstName: "",
         lastName: ""
@@ -21,6 +19,7 @@ class App extends Component {
     this.changeStep = this.changeStep.bind(this);
     this.steps = this.steps.bind(this);
     this.initializeStep = this.initializeStep.bind(this);
+    console.log(flowActions)
   }
 
   steps() {
@@ -29,9 +28,8 @@ class App extends Component {
       props: this.state.address,
       events: {
         onChange: ({target: {name, value}}) => {
-          const address = {...this.state.address};
-          address[name] = value;
-          this.setState({address})
+          console.log('hello')
+          flowActions.setAddress(name, value)
         }
       },
     }, {
@@ -47,9 +45,9 @@ class App extends Component {
     }];
   }
 
-  initializeStep({component, props, events}) {
+  initializeStep = ({component, props, events}) => {
     return component({...props, ...events})
-  }
+  };
 
   changeStep() {
     const lastStep = this.steps().length - 1;
