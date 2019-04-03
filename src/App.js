@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import './App.css';
 import Address from './Address'
 import FirstLast from './FirstLast'
-import FlowStore, {flowActions} from './stores/FlowStore'
-import Reflux from 'reflux'
 
 class App extends Reflux.Component {
   constructor(props) {
