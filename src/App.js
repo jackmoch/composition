@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import './App.css';
-import Address from './Address'
-import FirstLast from './FirstLast'
+import ClientDetails from './components/addNewBusinessFlow/ClientDetails';
+import Products from './components/addNewBusinessFlow/Products';
+import { connect } from 'react-redux';
+import { actions } from './redux/modules/addNewBusinessFlow/clientDetailsStep/clientDetails';
 
-class App extends Reflux.Component {
+
+class App extends Component {
   constructor(props) {
     super(props);
-    this.stores = [FlowStore];
     this.state = {
       currentStepIdx: 0
-    };
+    }
     this.changeStep = this.changeStep.bind(this);
     this.steps = this.steps.bind(this);
     this.initializeStep = this.initializeStep.bind(this);
@@ -17,21 +19,21 @@ class App extends Reflux.Component {
 
   steps() {
     return [{
-      component: Address,
-      props: this.state.address,
+      component: ClientDetails,
+      props: this.props.clientDetails,
       events: {
         onChange: ({target: {name, value}}) => {
-          flowActions.setAddress(name, value)
+          this.props.changeClientDetails(name, value)
         }
       },
     }, {
-      component: FirstLast,
-      props: this.state.clientInfo,
+      component: Products,
+      props: {},
       events: {
         onChange: ({target: {name, value}}) => {
-          flowActions.setClientInfo(name, value)
+          // this.props.changeClientDetails(name, value)
         }
-      }
+      },
     }];
   }
 
@@ -57,4 +59,22 @@ class App extends Reflux.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    clientDetails: state.clientDetails
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeClientDetails: (name, val) => {
+      const payload = {
+        [name]: val
+      }
+      dispatch({type: actions.updateClientDetails, payload})
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import example from './modules/example';
+import clientDetails from './modules/addNewBusinessFlow/clientDetailsStep/clientDetails';
 
 export default combineReducers({
-  example,
+    clientDetails,
 });

@@ -1,7 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map } from 'immutable';
-
-import { clientDetails } from '../../../../common/types/clientDetails';
 
 const GET_CLIENT_DETAILS = 'app/clientDetails/GET_CLIENT_DETAILS';
 const UPDATE_CLIENT_DETAILS = 'app/clientDetails/UPDATE_CLIENT_DETAILS';
@@ -15,7 +12,7 @@ export const constants = {
 // Actions
 // ------------------------------------
 export const getClientDetails = createAction(GET_CLIENT_DETAILS, () => ({}));
-export const updateClientDetails = createAction(UPDATE_CLIENT_DETAILS, (result : clientDetails) => ({ result }));
+export const updateClientDetails = createAction(UPDATE_CLIENT_DETAILS, (result) => ({ result }));
 
 export const actions = {
   getClientDetails,
@@ -23,13 +20,18 @@ export const actions = {
 };
 
 export const reducers = {
-  [UPDATE_CLIENT_DETAILS]: (state, { payload }) => state.merge({
-    ...payload,
-  }),
+  [UPDATE_CLIENT_DETAILS]: 
+  (state = initialState, {payload}) => {
+    console.log(payload)
+    return {...state, ...payload}
+  }
 }
 
-export const initialState = () => Map({
-  result: {},
+export const initialState = () => ({
+  name: '',
+  planEffectiveDate: '',
+  planEndDate: '',
+  numOfEligibleEmployees: 0
 })
 
 export default handleActions(reducers, initialState());
