@@ -22,7 +22,6 @@ export const actions = {
 export const reducers = {
   [UPDATE_CLIENT_DETAILS]: 
   (state = initialState, {payload}) => {
-    console.log(payload)
     return {...state, ...payload}
   }
 }
