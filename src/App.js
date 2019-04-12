@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
-import './App.css';
-import Address from './Address'
-import FirstLast from './FirstLast'
-import FlowStore, {flowActions} from './stores/FlowStore'
-import Reflux from 'reflux'
+import React, { Component } from "react";
+import "./App.css";
+import ClientDetails from "./components/addNewBusinessFlow/ClientDetails";
+import Products from "./components/addNewBusinessFlow/Products";
+import { connect } from "react-redux";
+import { actions } from "./redux/modules/addNewBusinessFlow/clientDetailsStep/clientDetails";
 
-class App extends Reflux.Component {
+class App extends Component {
   constructor(props) {
     super(props);
-    this.stores = [FlowStore];
     this.state = {
       currentStepIdx: 0
     };
@@ -18,45 +17,68 @@ class App extends Reflux.Component {
   }
 
   steps() {
-    return [{
-      component: Address,
-      props: this.state.address,
-      events: {
-        onChange: ({target: {name, value}}) => {
-          flowActions.setAddress(name, value)
+    return [
+      {
+        component: ClientDetails,
+        props: this.props.clientDetails,
+        events: {
+          onChange: ({ target: { name, value } }) => {
+            this.props.changeClientDetails(name, value);
+          }
         }
       },
-    }, {
-      component: FirstLast,
-      props: this.state.clientInfo,
-      events: {
-        onChange: ({target: {name, value}}) => {
-          flowActions.setClientInfo(name, value)
+      {
+        component: Products,
+        props: {},
+        events: {
+          onChange: ({ target: { name, value } }) => {
+            // this.props.changeClientDetails(name, value)
+          }
         }
       }
-    }];
+    ];
   }
 
-  initializeStep = ({component, props, events}) => {
-    return component({...props, ...events})
+  initializeStep = ({ component, props, events }) => {
+    return component({ ...props, ...events });
   };
 
   changeStep() {
     const lastStep = this.steps().length - 1;
     const nextStep = this.state.currentStepIdx + 1;
-    return nextStep <= lastStep ?
-        this.setState({currentStepIdx: nextStep}) :
-        this.setState({currentStepIdx: 0})
+    return nextStep <= lastStep
+      ? this.setState({ currentStepIdx: nextStep })
+      : this.setState({ currentStepIdx: 0 });
   }
 
   render() {
     return (
-        <div className="App">
-          <button onClick={this.changeStep}>Next Step</button>
-          {this.initializeStep(this.steps()[this.state.currentStepIdx])}
-        </div>
+      <div className="App">
+        <button onClick={this.changeStep}>Next Step</button>
+        {this.initializeStep(this.steps()[this.state.currentStepIdx])}
+      </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    clientDetails: state.clientDetails
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeClientDetails: (name, val) => {
+      const payload = {
+        [name]: val
+      };
+      dispatch({ type: actions.updateClientDetails, payload });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
